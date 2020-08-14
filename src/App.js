@@ -3,7 +3,8 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
 import Login from "./components/Login/Login";
@@ -14,25 +15,43 @@ import Dashboard from './components/Dashboard/Dashboard';
 function App() {
 
   const [isLoggedIn, setLoggedIn] = useState(false)
+  const [user, setUser] = useState ({
+    name: "",
+    email: ""
+  })
+
+  const loadUser = (user) => {
+    setUser({
+      name: user.name,
+      email: user.email
+    })
+  }
 
   return (
     <Router>
       <div>
-        <Navigation user="Chirag" isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn}/>
+        <Navigation user={user} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn}/>
         <Switch>
           <Route exact path="/">
             <Home/>
           </Route>
           <Route exact path="/login">
-            <Login/>
+            <Login setLoggedIn={setLoggedIn} loadUser={loadUser}/>
           </Route>
           <Route exact path="/register">
-            <Register/>
+            <Register setLoggedIn={setLoggedIn} loadUser={loadUser}/>
           </Route>
+          {
+          isLoggedIn
+          ? 
           <Route exact path="/dashboard">
-            <Dashboard user="Chirag"/>
+            <Dashboard user={user}/>
           </Route>
-        </Switch>
+          :
+          <Redirect to="/login" />
+          }
+          
+        </Switch>      
       </div>
     </Router>
   );
