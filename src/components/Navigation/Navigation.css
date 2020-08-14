@@ -1,0 +1,12 @@
+.d-subgrid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+li {
+    list-style: none;
+    justify-self: center;
+}
+.d-grid {
+    display: grid;
+    grid-template-columns: 33.33% 66.66%;
+}
